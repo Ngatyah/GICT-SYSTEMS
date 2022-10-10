@@ -2,28 +2,44 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { MdOutlineEdit } from "react-icons/md";
 import styles from "../styles/AddressList.module.css";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+/**
+ * This component generate a List every 10 seconds
+ * @returns JSX
+ */
 
 const AddressList = () => {
   const [edit, setEdit] = useState(true);
   const [data, setData] = useState([]);
   const [age, setAge] = useState(0);
   const [message, setMessage] = useState("");
-  const [enableEdit, setEnableEdit] = useState(false);
+  const [enableEdit, setEnableEdit] = useState(null);
 
   const config = {
     headers: { Authorization: `Bearer ${process.env.REACT_APP_API_KEY}` },
   };
-
+  /**
+   * Handle fetching data from the server
+   */
   const fetchData = async () => {
-    console.log("Get Data ", process.env);
-    const response = await fetch("http://localhost:3000/api/list/", {
-      method: "GET",
-      config,
-    });
-    const resData = await response.json();
-    setData((_) => resData);
+    try {
+      const response = await fetch("http://localhost:3000/api/list/", {
+        method: "GET",
+        config,
+      });
+      const resData = await response.json();
+      setData((_) => resData);
+    } catch (error) {
+      toast.error(error);
+    }
   };
 
+  /**
+   * Handler click event and update either age or message
+   * @param {click event value} value click event listener value
+   * @param {click event name} name  click event listener name
+   */
   const onChangeHandler = (value, name) => {
     if (name === "age") {
       setAge(value);
@@ -32,11 +48,15 @@ const AddressList = () => {
     }
   };
 
+  /**
+   * Handler CRUD functionalities to a single row item
+   * @param {number} id identify item to be worked on
+   * @param {string} type contain the role to be performed
+   */
   const editHandler = (id, type) => {
-    console.log(enableEdit);
     let tempAge = data[id].Age;
     let tempMessage = data[id].Message;
-    console.log(tempMessage);
+
     let editedData = data.map((item) => {
       if (item.ID === id && type === "edit") {
         setAge(item.Age);
@@ -47,7 +67,6 @@ const AddressList = () => {
         setAge(tempAge);
         setMessage(tempMessage);
         setEnableEdit(false);
-        console.log("cancel AGe", age);
 
         return { ...item, isEditable: false };
       } else if (item.ID === id && type === "update") {
@@ -65,7 +84,9 @@ const AddressList = () => {
     setData(editedData);
     setEdit(!edit);
   };
-
+  /**
+   * The timer triggers the UI to rerender with new data every 10 seconds.
+   */
   useEffect(() => {
     fetchData();
     const interval = setInterval(() => {

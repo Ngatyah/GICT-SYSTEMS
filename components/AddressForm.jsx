@@ -5,6 +5,10 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import styles from "../styles/AddressForm.module.css";
 
+/**
+ *
+ * @returns JSX component that display the Address Form
+ */
 const AddressForm = () => {
   const {
     register,
@@ -19,11 +23,16 @@ const AddressForm = () => {
       address: "",
     },
   });
+  console.log(process.env.API_URL);
 
   const config = {
     headers: { Authorization: `Bearer ${process.env.REACT_APP_API_KEY}` },
   };
 
+  /**
+   * Submit user data to the server and display feedback from the server
+   * @param {object} data Data inputs from the user
+   */
   const submitHandler = async (data) => {
     try {
       const response = await axios.post(
@@ -33,9 +42,7 @@ const AddressForm = () => {
       );
       console.log(response.data);
       if (response.status === 200) {
-        toast.success(response.data.Message, {
-          position: "bottom-right",
-        });
+        toast.success(response.data.Message);
       } else if (response.status === 401) {
         toast.warning("You are not authorized to Post", {
           position: "bottom-right",
@@ -47,7 +54,7 @@ const AddressForm = () => {
       }
       reset();
     } catch (error) {
-      toast.error(error, { position: "bottom-right" });
+      toast.error(error);
     }
   };
 
@@ -59,7 +66,7 @@ const AddressForm = () => {
         type="text"
         name="fullnames"
       />
-      <p>{errors.name?.message}</p>
+      <p>{errors.fullnames?.message}</p>
       <label htmlFor="name">Email</label>
       <input
         {...register("email", {

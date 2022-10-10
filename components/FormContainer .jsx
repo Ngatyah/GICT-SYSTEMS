@@ -2,7 +2,10 @@ import React, { useState } from "react";
 import RegistrationForm from "./AddressForm";
 import AddressList from "./AddressList";
 import styles from "../styles/FormContainer.module.css";
-
+/**
+ *
+ * @returns JSX component that allows us to toggle between Address Form and Address list
+ */
 const FormContainer = () => {
   const [tab, setTab] = useState(1);
   return (

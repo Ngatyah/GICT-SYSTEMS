@@ -1,7 +1,10 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
+/**
+ * Enables us to fetch data via terminal
+ */
 const config = {
-  headers: { Authorization: "Bearer ALDJAK23423JKSLAJAF23423J23SAD3" },
+  headers: { Authorization: `Bearer ALDJAK23423JKSLAJAF23423J23SAD3` },
 };
 
 const fetchData = async () => {

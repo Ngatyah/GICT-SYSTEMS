@@ -1,4 +1,9 @@
 
+/**
+ * Enable us to post data from our serve side to external server 
+ * @param {object} postData user input data
+ * @returns server feedback
+ */
 const postData = async (postData) => {
     const response = await fetch(
         "http://developers.gictsystems.com/api/dummy/submit/",
