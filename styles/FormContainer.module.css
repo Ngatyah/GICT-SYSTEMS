@@ -1,0 +1,54 @@
+.formContainer{
+   display: flex;
+   flex-direction: column;
+   min-height: 80vh;
+   width: 35%;
+   background-color: #FEFEFE;
+   margin: auto;
+   border-radius: 1rem;
+   margin-top: 1rem;
+}
+.formTabs{
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+    align-items: baseline;
+}
+.formTabs> button{
+    width: 50%;
+    padding: 1.5rem;
+}
+
+.addressForm{
+    border-bottom: 4px solid #8E193C;
+}
+
+
+@media only screen and (min-device-width: 281px){
+   .formContainer{
+    min-height: 80vh;
+   width: 85%;
+   }
+}
+@media only screen and (min-width: 768px){
+   .formContainer{
+    min-height: 80vh;
+   width: 70%;
+   }
+}
+@media only screen and (min-width: 960px) {
+         .formContainer{
+    min-height: 80vh;
+   width: 60%;
+   }
+    }
+
+@media only screen and (min-width: 1024px) {
+         .formContainer{
+    min-height: 80vh;
+   width: 50%;
+   }
+    }
+
+
+    

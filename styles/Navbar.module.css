@@ -1,0 +1,29 @@
+.header{
+ display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 3rem;
+}
+.links{
+
+}
+.links> a{
+  padding: 1rem;
+  text-decoration: none;
+  font-size: 1.2rem;
+  color: aliceblue;
+
+
+}
+@media only screen and (min-device-width: 281px) and (max-width: 768px){
+   .header{
+   flex-direction: column;
+   width: 85%;
+   }
+}
+@media only screen and (min-width: 768px) {
+   /* .links{
+   display:flex;
+   flex-direction: column;
+   } */
+}

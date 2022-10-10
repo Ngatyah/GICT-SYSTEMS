@@ -1,0 +1,33 @@
+
+.form{
+ display: flex;
+ flex-direction: column; 
+ justify-content: center;
+ margin-top: 1rem;
+ margin-left: 1rem;
+ font-size: 0.6rem;
+}
+
+
+.form input{
+    padding: 0.8rem;
+     width: 85%;
+    border-radius: 0.5rem;
+}
+.form label{
+    margin: 0.2rem 0;
+}
+.form .btn{
+   width: 10rem;
+   padding: 1rem;
+   margin-top: 1rem;
+   align-self: center;
+   background:#4A4E69;
+   color: white;
+   border: 1px solid;
+   cursor: pointer;
+   margin-bottom: 1rem;
+}
+.form p{
+    color: red;
+}
