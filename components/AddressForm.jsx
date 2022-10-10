@@ -39,7 +39,7 @@ const AddressForm = () => {
     setLoading(true);
     try {
       const response = await axios.post(
-        "http://localhost:3001/api/submit",
+        "https://gictsystems.vercel.app/api/submit",
         data,
         config
       );
