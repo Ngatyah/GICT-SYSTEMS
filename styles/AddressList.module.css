@@ -65,8 +65,8 @@
 
 .actionBtn{
     display: flex;
-    gap: 1;
-    justify-content: space-between;
+    gap: 0.6rem;
+    justify-content: center;
 }
 .okBtn{
 background-color: green;
