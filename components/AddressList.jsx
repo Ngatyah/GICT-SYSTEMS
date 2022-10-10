@@ -4,6 +4,7 @@ import { MdOutlineEdit } from "react-icons/md";
 import styles from "../styles/AddressList.module.css";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { Circles } from "react-loader-spinner";
 /**
  * This component generate a List every 10 seconds
  * @returns JSX
@@ -15,6 +16,7 @@ const AddressList = () => {
   const [age, setAge] = useState(0);
   const [message, setMessage] = useState("");
   const [enableEdit, setEnableEdit] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const config = {
     headers: { Authorization: `Bearer ${process.env.REACT_APP_API_KEY}` },
@@ -23,6 +25,7 @@ const AddressList = () => {
    * Handle fetching data from the server
    */
   const fetchData = async () => {
+    setLoading(true);
     try {
       const response = await fetch("http://localhost:3000/api/list/", {
         method: "GET",
@@ -30,7 +33,9 @@ const AddressList = () => {
       });
       const resData = await response.json();
       setData((_) => resData);
+      setLoading(false);
     } catch (error) {
+      setLoading(false);
       toast.error(error);
     }
   };
@@ -96,72 +101,85 @@ const AddressList = () => {
   }, []);
 
   return (
-    <div>
-      <table className={styles.table}>
-        <thead className={styles.tableHeader}>
-          <tr className={styles.tableRow}>
-            <th>Id</th>
-            <th>Name</th>
-            <th className={styles.age}>Age</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-
-        <tbody className={styles.bodyRow}>
-          {data.map((row) => (
-            <tr className={styles.singleRow} key={`${row.ID}${row.Message}`}>
-              <td className={styles.singleCell}>{row.ID}</td>
-              <td className={styles.singleCell}>
-                <input
-                  id={row?.isEditable && `${styles.activeInput}`}
-                  onChange={(e) =>
-                    onChangeHandler(e.target.value, e.target.name)
-                  }
-                  name="message"
-                  type="text"
-                  defaultValue={row.Message}
-                  disabled={!row?.isEditable}
-                />
-              </td>
-              <td className={styles.singleCell}>
-                <input
-                  id={row?.isEditable && `${styles.activeInput}`}
-                  onChange={(e) =>
-                    onChangeHandler(e.target.value, e.target.name)
-                  }
-                  name="age"
-                  type="text"
-                  defaultValue={row.Age}
-                  disabled={!row?.isEditable}
-                />
-              </td>
-              {!row?.isEditable ? (
-                <td
-                  onClick={() => editHandler(row.ID, "edit")}
-                  className={styles.singleCell}
-                >
-                  <MdOutlineEdit /> Edit
-                </td>
-              ) : (
-                <td className={styles.actionBtn}>
-                  <button
-                    onClick={() => editHandler(row.ID, "update")}
-                    className={styles.okBtn}
-                  >
-                    ok
-                  </button>
-                  <button
-                    onClick={() => editHandler(row.ID, "cancel")}
-                    className={styles.cancelBtn}
-                  >
-                    cancel
-                  </button>
-                </td>
-              )}
+    <div className={styles.tableContainer}>
+      {loading ? (
+        <div className={styles.icon}>
+          <Circles
+            height="80"
+            width="80"
+            color="#4A4E69"
+            ariaLabel="circles-loading"
+            wrapperStyle={{}}
+            wrapperClass=""
+            visible={true}
+          />
+        </div>
+      ) : (
+        <table className={styles.table}>
+          <thead className={styles.tableHeader}>
+            <tr className={styles.tableRow}>
+              <th>Id</th>
+              <th>Name</th>
+              <th className={styles.age}>Age</th>
+              <th>Actions</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody className={styles.bodyRow}>
+            {data.map((row) => (
+              <tr className={styles.singleRow} key={`${row.ID}${row.Message}`}>
+                <td className={styles.singleCell}>{row.ID}</td>
+                <td className={styles.singleCell}>
+                  <input
+                    id={row?.isEditable && `${styles.activeInput}`}
+                    onChange={(e) =>
+                      onChangeHandler(e.target.value, e.target.name)
+                    }
+                    name="message"
+                    type="text"
+                    defaultValue={row.Message}
+                    disabled={!row?.isEditable}
+                  />
+                </td>
+                <td className={styles.singleCell}>
+                  <input
+                    id={row?.isEditable && `${styles.activeInput}`}
+                    onChange={(e) =>
+                      onChangeHandler(e.target.value, e.target.name)
+                    }
+                    name="age"
+                    type="text"
+                    defaultValue={row.Age}
+                    disabled={!row?.isEditable}
+                  />
+                </td>
+                {!row?.isEditable ? (
+                  <td
+                    onClick={() => editHandler(row.ID, "edit")}
+                    className={styles.singleCell}
+                  >
+                    <MdOutlineEdit /> Edit
+                  </td>
+                ) : (
+                  <td className={styles.actionBtn}>
+                    <button
+                      onClick={() => editHandler(row.ID, "update")}
+                      className={styles.okBtn}
+                    >
+                      ok
+                    </button>
+                    <button
+                      onClick={() => editHandler(row.ID, "cancel")}
+                      className={styles.cancelBtn}
+                    >
+                      cancel
+                    </button>
+                  </td>
+                )}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
     </div>
   );
 };
