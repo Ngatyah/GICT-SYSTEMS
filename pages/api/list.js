@@ -8,6 +8,7 @@ const config = {
 };
 
 const fetchData = async () => {
+
   const response = await fetch(
     "http://developers.gictsystems.com/api/dummy/items/",
     { method: 'GET', ...config }

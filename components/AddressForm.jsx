@@ -35,14 +35,16 @@ const AddressForm = () => {
    * @param {object} data Data inputs from the user
    */
   const submitHandler = async (data) => {
+    console.log("Clicked");
     setLoading(true);
     try {
       const response = await axios.post(
-        "https://gictsystems.vercel.app/api/submit",
+        "http://localhost:3001/api/submit",
         data,
         config
       );
-      console.log(response.data);
+      console.log(response.status);
+      console.log("coleld");
       if (response.status === 200) {
         toast.success(response.data.Message);
         setLoading(false);
@@ -52,10 +54,9 @@ const AddressForm = () => {
           position: "bottom-right",
         });
       } else {
+        console.log(Error);
         setLoading(false);
-        toast.error(response.data.Message, {
-          position: "bottom-right",
-        });
+        toast.error(response.data.Message);
       }
       reset();
     } catch (error) {

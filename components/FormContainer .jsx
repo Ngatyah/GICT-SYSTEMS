@@ -15,7 +15,7 @@ const FormContainer = () => {
           className={tab === 1 ? `${styles.addressForm}` : "btn1"}
           onClick={() => setTab(1)}
         >
-          Form
+          Registration Form
         </button>
         <button
           className={tab === 2 && `${styles.addressForm}`}

@@ -27,7 +27,7 @@ const AddressList = () => {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const response = await fetch("https://gictsystems.vercel.app/api/list/", {
+      const response = await fetch("http://localhost:3001/api/list/", {
         method: "GET",
         config,
       });
