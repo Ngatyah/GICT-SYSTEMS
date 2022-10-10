@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { Oval } from "react-loader-spinner";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import styles from "../styles/AddressForm.module.css";
@@ -10,6 +11,7 @@ import styles from "../styles/AddressForm.module.css";
  * @returns JSX component that display the Address Form
  */
 const AddressForm = () => {
+  const [loading, setLoading] = useState(false);
   const {
     register,
     reset,
@@ -23,7 +25,6 @@ const AddressForm = () => {
       address: "",
     },
   });
-  console.log(process.env.API_URL);
 
   const config = {
     headers: { Authorization: `Bearer ${process.env.REACT_APP_API_KEY}` },
@@ -34,6 +35,7 @@ const AddressForm = () => {
    * @param {object} data Data inputs from the user
    */
   const submitHandler = async (data) => {
+    setLoading(true);
     try {
       const response = await axios.post(
         "http://localhost:3000/api/submit",
@@ -43,17 +45,21 @@ const AddressForm = () => {
       console.log(response.data);
       if (response.status === 200) {
         toast.success(response.data.Message);
+        setLoading(false);
       } else if (response.status === 401) {
+        setLoading(false);
         toast.warning("You are not authorized to Post", {
           position: "bottom-right",
         });
       } else {
+        setLoading(false);
         toast.error(response.data.Message, {
           position: "bottom-right",
         });
       }
       reset();
     } catch (error) {
+      setLoading(false);
       toast.error(error);
     }
   };
@@ -99,8 +105,24 @@ const AddressForm = () => {
         name="address"
       />
       <p>{errors.address?.message}</p>
+
       <button type="submit" className={styles.btn}>
-        submit
+        {loading ? (
+          <Oval
+            height={25}
+            width={25}
+            color="#4fa94d"
+            wrapperStyle={{}}
+            wrapperClass=""
+            visible={true}
+            ariaLabel="oval-loading"
+            secondaryColor="#ffffff"
+            strokeWidth={2}
+            strokeWidthSecondary={4}
+          />
+        ) : (
+          "submit"
+        )}
       </button>
       <ToastContainer />
     </form>
